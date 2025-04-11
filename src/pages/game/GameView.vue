@@ -5,22 +5,46 @@ import GameContainer from '@/shared/game-container/GameContainer.vue'
 
 import GameCard from './game-card/GameCard.vue'
 import GameHeader from './game-header/GameHeader.vue'
-import { watch } from 'vue'
+import { onMounted, reactive, watch } from 'vue'
 
 const cards = gameService.getCards()
 const state = gameService.getState()
+const openCards = reactive<Record<number, boolean>>({})
+
+cards.forEach((card) => {
+  openCards[card.id] = true
+})
 
 const misMatchEvent = gameService.getMismatchEvent()
 
 watch(misMatchEvent, (value) => {
   if (value) {
-    console.log(value.firstCardId, value.secondCardId)
+    const { firstCardId, secondCardId } = value
+    setTimeout(() => {
+      openCards[firstCardId] = false
+      openCards[secondCardId] = false
+    }, 1000)
   }
 })
 
 if (!state.isGameStarted) {
   router.push('/')
 }
+
+const handleOpen = (cardKey: number, id: number) => {
+  if (!openCards[id]) {
+    openCards[id] = true
+    gameService.playGame(cardKey, id)
+  }
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    cards.forEach((card) => {
+      openCards[card.id] = false
+    })
+  }, 2000)
+})
 </script>
 
 <template>
@@ -35,7 +59,9 @@ if (!state.isGameStarted) {
             :key="index"
             :img-src="card.imgSrc"
             :card-key="card.key"
-            @open="(cardKey) => console.log(cardKey)"
+            :id="card.id"
+            :is-open="openCards[card.id] || false"
+            @open="handleOpen"
           />
         </div>
       </template>

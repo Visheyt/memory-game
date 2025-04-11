@@ -5,6 +5,7 @@ import GameContainer from '@/shared/game-container/GameContainer.vue'
 
 const startGame = (mode: Mode) => {
   gameService.chooseMode(mode)
+  gameService.startGame()
 
   router.push('/game')
 }

@@ -10,6 +10,7 @@ type GameStats = {
 }
 
 type MismatchEvent = { firstCardId: number; secondCardId: number } | null
+
 export class GameService {
   private gameState = reactive<GameStats>({
     isGameStarted: false,
@@ -25,10 +26,13 @@ export class GameService {
 
   private secondCardId: null | number = null
 
+  private pressedCardKey: null | number = null
+
   private mismatchEvent = ref<MismatchEvent>(null)
 
   public startGame = () => {
     this.gameState.isGameStarted = true
+    this.shuffleCards()
   }
 
   public restartGame = () => {
@@ -67,20 +71,22 @@ export class GameService {
     this.gameState.isGameStarted = true
   }
 
-  public playGame = (key: number) => {
-    if (!this.firstCardId) {
-      this.firstCardId = key
-      console.log(this.firstCardId)
+  public playGame = (key: number, id: number) => {
+    if (!this.pressedCardKey) {
+      this.pressedCardKey = key
+      this.firstCardId = id
+      return
     }
 
-    if (this.firstCardId === key) {
+    if (this.pressedCardKey === key) {
       this.scoreCounter -= 1
       this.resetCardsId()
     } else {
-      this.secondCardId = key
-      this.mismatchEvent.value = { firstCardId: this.firstCardId, secondCardId: this.secondCardId }
+      this.secondCardId = id
+      this.mismatchEvent.value = { firstCardId: this.firstCardId!, secondCardId: this.secondCardId }
 
       setTimeout(() => {
+        this.resetCardsId()
         this.mismatchEvent.value = null
       }, 100)
     }
@@ -91,6 +97,7 @@ export class GameService {
   private resetCardsId = () => {
     this.firstCardId = null
     this.secondCardId = null
+    this.pressedCardKey = null
   }
 
   private shuffleCards = () => {
@@ -98,7 +105,6 @@ export class GameService {
   }
 
   public getCards = () => {
-    this.shuffleCards()
     return this.gameCards
   }
 

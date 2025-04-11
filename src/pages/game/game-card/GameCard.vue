@@ -1,34 +1,23 @@
 <script setup lang="ts">
-import { gameService } from '@/services/game-service'
-import { onMounted, ref } from 'vue'
-
 const props = defineProps<{
   imgSrc: string
   cardKey: number
+  id: number
+  isOpen: boolean
 }>()
 
-const isOpen = ref(false)
+const emit = defineEmits(['open'])
 
-const handleClick = (cardKey: number) => {
-  isOpen.value = true
-  gameService.playGame(cardKey)
+const handleClick = (cardKey: number, id: number) => {
+  emit('open', cardKey, id)
 }
-onMounted(() => {
-  setTimeout(() => {
-    isOpen.value = true
-  }, 1000)
-
-  setTimeout(() => {
-    isOpen.value = false
-  }, 5000)
-})
 </script>
 
 <template>
   <button
     class="card"
     :class="isOpen ? 'open' : ' '"
-    @click="handleClick(cardKey)"
+    @click="handleClick(cardKey, id)"
     :disabled="isOpen"
   >
     <img :src="props.imgSrc" alt="front image" class="front" />
