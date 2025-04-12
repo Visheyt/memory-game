@@ -2,34 +2,15 @@
 import router from '@/router'
 import { gameService } from '@/services/game-service'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
-
 import GameCard from './game-card/GameCard.vue'
 import GameHeader from './game-header/GameHeader.vue'
-import { onMounted, reactive, watch } from 'vue'
+import { useCards } from '@/composables/useCards'
+import { useMismatchHandler } from '@/composables/useMismatchHandler'
+import { useGameState } from '@/composables/useGameState'
 
-const cards = gameService.getCards()
-const state = gameService.getState()
-const openCards = reactive<Record<number, boolean>>({})
-
-cards.forEach((card) => {
-  openCards[card.id] = true
-})
-
-const misMatchEvent = gameService.getMismatchEvent()
-
-watch(misMatchEvent, (value) => {
-  if (value) {
-    const { firstCardId, secondCardId } = value
-    setTimeout(() => {
-      openCards[firstCardId] = false
-      openCards[secondCardId] = false
-    }, 1000)
-  }
-})
-
-if (!state.isGameStarted) {
-  router.push('/')
-}
+const { cards, openCards } = useCards(gameService)
+useMismatchHandler(gameService, openCards)
+const state = useGameState(gameService, router)
 
 const handleOpen = (cardKey: number, id: number) => {
   if (!openCards[id]) {
@@ -37,14 +18,6 @@ const handleOpen = (cardKey: number, id: number) => {
     gameService.playGame(cardKey, id)
   }
 }
-
-onMounted(() => {
-  setTimeout(() => {
-    cards.forEach((card) => {
-      openCards[card.id] = false
-    })
-  }, 2000)
-})
 </script>
 
 <template>
