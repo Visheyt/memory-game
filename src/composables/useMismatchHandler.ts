@@ -16,6 +16,4 @@ export const useMismatchHandler = (
       }, 1000)
     }
   })
-
-  return {}
 }

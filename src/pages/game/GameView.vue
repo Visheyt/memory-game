@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import router from '@/router'
 import { gameService } from '@/services/game-service'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
 import GameCard from './game-card/GameCard.vue'
 import GameHeader from './game-header/GameHeader.vue'
-import { useCards } from '@/composables/useCards'
-import { useMismatchHandler } from '@/composables/useMismatchHandler'
-import { useGameState } from '@/composables/useGameState'
+import { useGame } from '@/composables/useGame'
 
-const { cards, openCards } = useCards(gameService)
-useMismatchHandler(gameService, openCards)
-const state = useGameState(gameService, router)
+const { cards, openCards, state } = useGame()
 
 const handleOpen = (cardKey: number, id: number) => {
   if (!openCards[id]) {

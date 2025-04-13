@@ -84,6 +84,7 @@ export class GameService {
     } else {
       this.secondCardId = id
       this.mismatchEvent.value = { firstCardId: this.firstCardId!, secondCardId: this.secondCardId }
+      this.gameState.lives -= 1
 
       setTimeout(() => {
         this.resetCardsId()
