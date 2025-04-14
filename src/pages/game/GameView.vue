@@ -4,6 +4,9 @@ import GameContainer from '@/shared/game-container/GameContainer.vue'
 import GameCard from './game-card/GameCard.vue'
 import GameHeader from './game-header/GameHeader.vue'
 import { useGame } from '@/composables/useGame'
+import { ref, watch } from 'vue'
+
+import GameEnd from './game-end/GameEnd.vue'
 
 const { cards, openCards, state } = useGame()
 
@@ -12,6 +15,19 @@ const handleOpen = (cardKey: number, id: number) => {
     openCards[id] = true
     gameService.playGame(cardKey, id)
   }
+}
+
+const isModalOpen = ref(false)
+
+watch(gameService.isGameLoose, (newVal) => {
+  if (newVal) {
+    isModalOpen.value = true
+  }
+})
+
+const restartGame = () => {
+  gameService.restartGame()
+  isModalOpen.value = false
 }
 </script>
 
@@ -34,6 +50,20 @@ const handleOpen = (cardKey: number, id: number) => {
         </div>
       </template>
     </GameContainer>
+    <GameEnd :is-open="isModalOpen">
+      <template #header>
+        <h2>You've run out of lives.</h2>
+      </template>
+      <template #content>
+        <div>
+          <p>Do you want to restart game?</p>
+        </div>
+      </template>
+      <template #buttons>
+        <button @click="restartGame">Yes</button>
+        <button>NO</button>
+      </template>
+    </GameEnd>
   </div>
 </template>
 

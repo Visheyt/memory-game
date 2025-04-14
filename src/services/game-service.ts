@@ -18,6 +18,8 @@ export class GameService {
     lives: 3,
   })
 
+  public isGameLoose = ref(false)
+
   private gameCards = Cards
 
   private scoreCounter = 12
@@ -36,7 +38,13 @@ export class GameService {
   }
 
   public restartGame = () => {
-    this.gameState.lives = 3
+    this.isGameLoose.value = false
+    this.scoreCounter = 12
+    this.resetCardsId()
+    this.mismatchEvent.value = null
+
+    this.chooseMode(this.gameState.gameMode)
+    this.shuffleCards()
   }
 
   public chooseMode = (mode: Mode) => {
@@ -85,6 +93,8 @@ export class GameService {
       this.secondCardId = id
       this.mismatchEvent.value = { firstCardId: this.firstCardId!, secondCardId: this.secondCardId }
       this.gameState.lives -= 1
+
+      if (this.gameState.lives === 0) this.isGameLoose.value = true
 
       setTimeout(() => {
         this.resetCardsId()
