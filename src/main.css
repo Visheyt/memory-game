@@ -17,8 +17,27 @@ body {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  padding: 20px;
 }
 #app {
   width: 100%;
   height: 100%;
+}
+li {
+  list-style-type: none;
+}
+@media (max-width: 768px) {
+  li {
+    font-size: 14px;
+    line-height: 30px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  p {
+    font-size: 12px;
+  }
 }

@@ -20,5 +20,8 @@
   position: relative;
   z-index: 100;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 }
 </style>

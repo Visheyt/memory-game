@@ -83,12 +83,18 @@ onMounted(() => {
   object-fit: cover;
   z-index: -1;
 }
+
 .cards-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
   height: 100%;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
+  padding: 10px;
+  justify-items: center;
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 .game-container {
   padding: 10px;

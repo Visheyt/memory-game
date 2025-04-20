@@ -28,13 +28,13 @@ const handleClick = (cardKey: number, id: number) => {
 <style>
 .card {
   position: relative;
-  width: 120px;
-  height: 210px;
-  margin: 10px;
   background-color: rgba(0, 0, 0, 0.275);
   cursor: pointer;
   transform-style: preserve-3d;
   transition: transform 1.5s;
+  max-width: 130px;
+  width: 100%;
+  aspect-ratio: 130 / 220;
 }
 .back {
   position: absolute;
@@ -48,10 +48,17 @@ const handleClick = (cardKey: number, id: number) => {
 }
 img {
   align-self: center;
-  width: 120px;
-  height: 210px;
   left: 0px;
   top: 0px;
   border-radius: 5px;
+  width: 100%;
+  object-fit: contain;
+  width: 100%;
+  position: relative;
+}
+@media (max-width: 480px) {
+  .card {
+    max-width: 100px;
+  }
 }
 </style>
