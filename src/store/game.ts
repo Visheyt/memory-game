@@ -4,29 +4,30 @@ import { ref } from 'vue'
 export type Mode = 'easy' | 'medium' | 'hard'
 
 export const useGameStore = defineStore('game', () => {
+  const delayMap: Record<Mode, number> = {
+    easy: 7000,
+    medium: 5000,
+    hard: 3000,
+  }
+
+  const livesMap: Record<Mode, number> = {
+    easy: 3,
+    medium: 2,
+    hard: 1,
+  }
   const mode = ref<Mode>('easy')
   const lives = ref(3)
+  const showDelay = ref(delayMap[mode.value])
   const isGameStarted = ref(false)
   const isGameLoose = ref(false)
   const scoreCounter = ref(12)
+  const musicSrc = ref('/music/easy.mp3')
 
   const setMode = (newMode: Mode) => {
     mode.value = newMode
-    livesForMode(mode.value)
-  }
-
-  const livesForMode = (mode: Mode) => {
-    switch (mode) {
-      case 'easy':
-        lives.value = 3
-        break
-      case 'medium':
-        lives.value = 2
-        break
-      case 'hard':
-        lives.value = 1
-        break
-    }
+    musicSrc.value = `/music/${newMode}.mp3`
+    showDelay.value = delayMap[newMode]
+    lives.value = livesMap[newMode]
   }
 
   const startGame = () => {
@@ -51,6 +52,7 @@ export const useGameStore = defineStore('game', () => {
     lives,
     isGameLoose,
     isGameStarted,
+    showDelay,
     setMode,
     startGame,
     decreasedLives,

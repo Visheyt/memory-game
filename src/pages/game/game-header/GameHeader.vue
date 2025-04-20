@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import HeartIcon from '@/shared/icons/HeartIcon.vue'
 import MusicIcon from '@/shared/icons/MusicIcon.vue'
+import { useGameStore } from '@/store/game'
 
-const props = defineProps<{
-  lives: number
-}>()
+const gameStore = useGameStore()
 </script>
 
 <template>
   <header>
     <div class="icons">
-      <HeartIcon v-for="n in props.lives" :key="n" />
+      <HeartIcon v-for="n in gameStore.lives" :key="n" />
     </div>
     <div class="icons"><MusicIcon /></div>
   </header>

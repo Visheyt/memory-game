@@ -45,7 +45,7 @@ onMounted(() => {
     <img :src="`/${store.mode}.webp`" alt="" class="background" />
     <GameContainer class="game-container">
       <template #content>
-        <GameHeader :lives="store.lives" />
+        <GameHeader />
         <div class="cards-container">
           <GameCard
             v-for="(card, index) in cards"

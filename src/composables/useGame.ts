@@ -3,6 +3,11 @@ import { useMismatchHandler } from './useMismatchHandler'
 import { useGameStore } from '@/store/game'
 import { useCardsSelection } from './useCardsSelection'
 import { useGameGuard } from './useGameGuard'
+import { delay } from '@/utils/delay'
+
+const START_GAME_CARDS_OPEN_DELAY = 1000
+
+const RESET_DELAY = 100
 
 export const useGame = () => {
   const { cards, openCards, shuffleCards, close, open } = useCards()
@@ -25,7 +30,7 @@ export const useGame = () => {
     startGame()
   }
 
-  const playGame = (key: number, id: number) => {
+  const playGame = async (key: number, id: number) => {
     if (!pressedCardKey.value) {
       pressedCardKey.value = key
       firstCardId.value = id
@@ -37,25 +42,26 @@ export const useGame = () => {
       resetCardsId()
     } else {
       secondCardId.value = id
-      setMismatchEventValue({ firstCardId: firstCardId.value!, secondCardId: secondCardId.value! })
+
+      if (firstCardId.value !== null && secondCardId.value !== null) {
+        setMismatchEventValue({ firstCardId: firstCardId.value, secondCardId: secondCardId.value })
+      }
+
       gameStore.decreasedLives()
 
-      setTimeout(() => {
-        resetCardsId()
-        resetMismatchHandler()
-      }, 100)
+      await delay(RESET_DELAY)
+
+      resetCardsId()
+      resetMismatchHandler()
     }
   }
 
-  const startGame = () => {
+  const startGame = async () => {
     shuffleCards()
-    setTimeout(() => {
-      open()
-    }, 1000)
-
-    setTimeout(() => {
-      close()
-    }, 3000)
+    await delay(START_GAME_CARDS_OPEN_DELAY)
+    open()
+    await delay(gameStore.showDelay)
+    close()
   }
 
   return {
