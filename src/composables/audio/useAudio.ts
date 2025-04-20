@@ -20,5 +20,6 @@ export const useAudio = () => {
   return {
     createAudio,
     toggleAudio,
+    isAudioPlay,
   }
 }

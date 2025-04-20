@@ -6,14 +6,28 @@ import { onMounted } from 'vue'
 const props = defineProps<{
   musicSrc: string
 }>()
-const { toggleAudio, createAudio } = useAudio()
+const { toggleAudio, createAudio, isAudioPlay } = useAudio()
 
 onMounted(() => {
   createAudio(props.musicSrc)
 })
 </script>
 <template>
-  <button class="icons" @click="toggleAudio"><MusicIcon /></button>
+  <button class="audio" @click="toggleAudio" :class="isAudioPlay && 'active'">
+    <MusicIcon />
+  </button>
 </template>
 
-<style></style>
+<style>
+.audio svg {
+  width: 25px;
+}
+.audio {
+  background-color: inherit;
+  filter: contrast(0.2);
+  transition: all 0.5s ease;
+}
+.active {
+  filter: contrast(1);
+}
+</style>
