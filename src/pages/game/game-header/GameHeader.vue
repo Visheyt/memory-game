@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HeartIcon from '@/shared/icons/HeartIcon.vue'
 import MusicIcon from '@/shared/icons/MusicIcon.vue'
-import { useGameStore } from '@/store/game'
+import { useGameStore } from '@/store/game/index'
 
 const gameStore = useGameStore()
 </script>

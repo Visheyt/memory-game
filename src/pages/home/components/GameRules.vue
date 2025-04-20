@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import router from '@/router'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
-import { useGameStore, type Mode } from '@/store/game'
+import { useGameStore } from '@/store/game/index'
+import type { Mode } from '@/store/game/types'
 
 const store = useGameStore()
 

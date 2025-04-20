@@ -1,20 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
-export type Mode = 'easy' | 'medium' | 'hard'
+import { delayMap, livesMap } from './config'
+import type { Mode } from './types'
 
 export const useGameStore = defineStore('game', () => {
-  const delayMap: Record<Mode, number> = {
-    easy: 7000,
-    medium: 5000,
-    hard: 3000,
-  }
-
-  const livesMap: Record<Mode, number> = {
-    easy: 3,
-    medium: 2,
-    hard: 1,
-  }
   const mode = ref<Mode>('easy')
   const lives = ref(3)
   const showDelay = ref(delayMap[mode.value])

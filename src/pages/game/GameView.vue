@@ -6,7 +6,7 @@ import { useGame } from '@/composables/useGame'
 import { onMounted, ref, watch } from 'vue'
 
 import GameEnd from './game-end/GameEnd.vue'
-import { useGameStore } from '@/store/game'
+import { useGameStore } from '@/store/game/index'
 
 const { cards, openCards, startGame, playGame, restartGame } = useGame()
 
