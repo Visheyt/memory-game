@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GameRules from './components/GameRules.vue'
+import GameRules from '@/features/start/components/GameRules.vue'
 </script>
 
 <template>

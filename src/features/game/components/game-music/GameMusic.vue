@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAudio } from '@/composables/audio/useAudio'
+import { useAudio } from '@/shared/composables/audio/useAudio'
 import MusicIcon from '@/shared/icons/MusicIcon.vue'
 import { onMounted } from 'vue'
 

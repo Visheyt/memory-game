@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import GameContainer from '@/shared/game-container/GameContainer.vue'
-import GameCard from './game-card/GameCard.vue'
-import GameHeader from './game-header/GameHeader.vue'
-import { useGame } from '@/composables/game/useGame'
 import { onMounted, ref, watch } from 'vue'
-
-import GameEnd from './game-end/GameEnd.vue'
 import { useGameStore } from '@/store/game/index'
+import GameHeader from '@/features/game/components/game-header/GameHeader.vue'
+import GameCard from '@/features/game/components/game-card/GameCard.vue'
+import GameEnd from '@/features/game/components/game-end/GameEnd.vue'
+import { useGame } from '@/features/game/composables/useGame'
 
 const { cards, openCards, startGame, playGame, restartGame } = useGame()
 
