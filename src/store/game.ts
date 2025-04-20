@@ -12,7 +12,11 @@ export const useGameStore = defineStore('game', () => {
 
   const setMode = (newMode: Mode) => {
     mode.value = newMode
-    switch (mode.value) {
+    livesForMode(mode.value)
+  }
+
+  const livesForMode = (mode: Mode) => {
+    switch (mode) {
       case 'easy':
         lives.value = 3
         break
@@ -29,12 +33,17 @@ export const useGameStore = defineStore('game', () => {
     isGameStarted.value = true
   }
 
-  const looseLive = () => {
+  const decreasedLives = () => {
     lives.value -= 1
 
     if (lives.value === 0) {
       isGameLoose.value = true
     }
+  }
+
+  const reset = () => {
+    isGameLoose.value = false
+    scoreCounter.value = 12
   }
 
   return {
@@ -44,7 +53,8 @@ export const useGameStore = defineStore('game', () => {
     isGameStarted,
     setMode,
     startGame,
-    looseLive,
+    decreasedLives,
     scoreCounter,
+    reset,
   }
 })

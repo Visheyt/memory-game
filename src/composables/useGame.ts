@@ -1,37 +1,26 @@
-import router from '@/router'
 import { useCards } from './useCards'
 import { useMismatchHandler } from './useMismatchHandler'
 import { useGameStore } from '@/store/game'
-import { ref } from 'vue'
+import { useCardsSelection } from './useCardsSelection'
+import { useGameGuard } from './useGameGuard'
 
 export const useGame = () => {
   const { cards, openCards, shuffleCards, close, open } = useCards()
 
-  const pressedCardKey = ref<number | null>(null)
-  const firstCardId = ref<number | null>(null)
-  const secondCardId = ref<number | null>(null)
+  const { firstCardId, secondCardId, pressedCardKey, resetCardsId } = useCardsSelection()
 
   const { resetMismatchHandler, setMismatchEventValue } = useMismatchHandler(openCards)
 
-  const gameState = useGameStore()
+  useGameGuard()
 
-  if (!gameState.isGameStarted) {
-    router.push('/')
-  }
-
-  const resetCardsId = () => {
-    firstCardId.value = null
-    secondCardId.value = null
-    pressedCardKey.value = null
-  }
+  const gameStore = useGameStore()
 
   const restartGame = () => {
-    gameState.isGameLoose = false
-    gameState.scoreCounter = 12
     resetCardsId()
     resetMismatchHandler()
 
-    gameState.setMode(gameState.mode)
+    gameStore.setMode(gameStore.mode)
+    gameStore.reset()
 
     startGame()
   }
@@ -44,14 +33,12 @@ export const useGame = () => {
     }
 
     if (pressedCardKey.value === key) {
-      gameState.scoreCounter -= 1
+      gameStore.scoreCounter -= 1
       resetCardsId()
     } else {
       secondCardId.value = id
       setMismatchEventValue({ firstCardId: firstCardId.value!, secondCardId: secondCardId.value! })
-      gameState.lives -= 1
-
-      if (gameState.lives === 0) gameState.isGameLoose = true
+      gameStore.decreasedLives()
 
       setTimeout(() => {
         resetCardsId()
@@ -74,7 +61,7 @@ export const useGame = () => {
   return {
     cards,
     openCards,
-    gameState,
+    gameStore,
     startGame,
     restartGame,
     playGame,
