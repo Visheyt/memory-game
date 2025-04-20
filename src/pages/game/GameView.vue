@@ -1,42 +1,51 @@
 <script setup lang="ts">
-import { gameService } from '@/services/game-service'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
 import GameCard from './game-card/GameCard.vue'
 import GameHeader from './game-header/GameHeader.vue'
 import { useGame } from '@/composables/useGame'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 import GameEnd from './game-end/GameEnd.vue'
+import { useGameStore } from '@/store/game'
 
-const { cards, openCards, state } = useGame()
+const { cards, openCards, startGame, playGame, restartGame } = useGame()
+
+const store = useGameStore()
 
 const handleOpen = (cardKey: number, id: number) => {
   if (!openCards[id]) {
     openCards[id] = true
-    gameService.playGame(cardKey, id)
+    playGame(cardKey, id)
   }
 }
 
 const isModalOpen = ref(false)
 
-watch(gameService.isGameLoose, (newVal) => {
-  if (newVal) {
-    isModalOpen.value = true
-  }
-})
+watch(
+  () => store.isGameLoose,
+  (newVal) => {
+    if (newVal) {
+      isModalOpen.value = true
+    }
+  },
+)
 
-const restartGame = () => {
-  gameService.restartGame()
+const newGame = () => {
+  restartGame()
   isModalOpen.value = false
 }
+
+onMounted(() => {
+  startGame()
+})
 </script>
 
 <template>
   <div class="page">
-    <img :src="`/${state.gameMode}.webp`" alt="" class="background" />
+    <img :src="`/${store.mode}.webp`" alt="" class="background" />
     <GameContainer class="game-container">
       <template #content>
-        <GameHeader :lives="state.lives" />
+        <GameHeader :lives="store.lives" />
         <div class="cards-container">
           <GameCard
             v-for="(card, index) in cards"
@@ -60,7 +69,7 @@ const restartGame = () => {
         </div>
       </template>
       <template #buttons>
-        <button @click="restartGame">Yes</button>
+        <button @click="newGame">Yes</button>
         <button>NO</button>
       </template>
     </GameEnd>

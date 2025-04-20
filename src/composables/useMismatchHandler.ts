@@ -1,11 +1,9 @@
-import type { GameService } from '@/services/game-service'
-import { watch } from 'vue'
+import { ref, watch } from 'vue'
 
-export const useMismatchHandler = (
-  gameService: GameService,
-  openCards: Record<number, boolean>,
-) => {
-  const misMatchEvent = gameService.getMismatchEvent()
+type MismatchEvent = { firstCardId: number; secondCardId: number } | null
+
+export const useMismatchHandler = (openCards: Record<number, boolean>) => {
+  const misMatchEvent = ref<MismatchEvent>(null)
 
   watch(misMatchEvent, (value) => {
     if (value) {
@@ -16,4 +14,14 @@ export const useMismatchHandler = (
       }, 1000)
     }
   })
+
+  const resetMismatchHandler = () => {
+    misMatchEvent.value = null
+  }
+
+  const setMismatchEventValue = (misMatchEventValue: MismatchEvent) => {
+    misMatchEvent.value = misMatchEventValue
+  }
+
+  return { resetMismatchHandler, setMismatchEventValue }
 }

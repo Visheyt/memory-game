@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import router from '@/router'
-import { gameService, type Mode } from '@/services/game-service'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
+import { useGameStore, type Mode } from '@/store/game'
+
+const store = useGameStore()
 
 const startGame = (mode: Mode) => {
-  gameService.chooseMode(mode)
-  gameService.startGame()
+  store.setMode(mode)
+  store.startGame()
 
   router.push('/game')
 }

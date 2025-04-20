@@ -1,23 +1,31 @@
-import { GameService } from '@/services/game-service'
-import { onMounted, reactive } from 'vue'
+import { Cards } from '@/data/cards'
+import { reactive, ref } from 'vue'
 
-export const useCards = (gameService: GameService) => {
-  const cards = gameService.getCards()
+export const useCards = () => {
+  const cards = ref([...Cards])
   const openCards = reactive<Record<number, boolean>>({})
 
-  cards.forEach((card) => {
-    openCards[card.id] = true
-  })
+  const shuffleCards = () => {
+    cards.value = [...cards.value].sort(() => Math.random() - 0.5)
+  }
 
-  onMounted(() => {
-    setTimeout(() => {
-      cards.forEach((card) => {
-        openCards[card.id] = false
-      })
-    }, 2000)
-  })
+  const open = () => {
+    cards.value.forEach((card) => {
+      openCards[card.id] = true
+    })
+  }
+
+  const close = () => {
+    cards.value.forEach((card) => {
+      openCards[card.id] = false
+    })
+  }
+
   return {
     cards,
     openCards,
+    shuffleCards,
+    open,
+    close,
   }
 }
