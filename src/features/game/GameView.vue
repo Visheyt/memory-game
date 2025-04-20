@@ -83,6 +83,9 @@ onMounted(() => {
   object-fit: cover;
   z-index: -1;
 }
+.game-container {
+  min-height: auto;
+}
 
 .cards-container {
   display: grid;
@@ -92,9 +95,6 @@ onMounted(() => {
   height: 100%;
   padding: 10px;
   justify-items: center;
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 .game-container {
   padding: 10px;

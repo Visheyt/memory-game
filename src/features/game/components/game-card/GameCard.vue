@@ -58,7 +58,8 @@ img {
 }
 @media (max-width: 480px) {
   .card {
-    max-width: 100px;
+    aspect-ratio: 70 / 120;
+    max-width: 70px;
   }
 }
 </style>
