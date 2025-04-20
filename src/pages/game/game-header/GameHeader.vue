@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import HeartIcon from '@/shared/icons/HeartIcon.vue'
-import MusicIcon from '@/shared/icons/MusicIcon.vue'
+
 import { useGameStore } from '@/store/game/index'
+import GameMusic from '../game-music/GameMusic.vue'
 
 const gameStore = useGameStore()
 </script>
@@ -11,7 +12,7 @@ const gameStore = useGameStore()
     <div class="icons">
       <HeartIcon v-for="n in gameStore.lives" :key="n" />
     </div>
-    <div class="icons"><MusicIcon /></div>
+    <GameMusic :music-src="gameStore.musicSrc" />
   </header>
 </template>
 

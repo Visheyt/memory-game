@@ -42,6 +42,7 @@ export const useGameStore = defineStore('game', () => {
     isGameLoose,
     isGameStarted,
     showDelay,
+    musicSrc,
     setMode,
     startGame,
     decreasedLives,

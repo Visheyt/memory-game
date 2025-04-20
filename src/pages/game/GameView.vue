@@ -2,7 +2,7 @@
 import GameContainer from '@/shared/game-container/GameContainer.vue'
 import GameCard from './game-card/GameCard.vue'
 import GameHeader from './game-header/GameHeader.vue'
-import { useGame } from '@/composables/useGame'
+import { useGame } from '@/composables/game/useGame'
 import { onMounted, ref, watch } from 'vue'
 
 import GameEnd from './game-end/GameEnd.vue'
