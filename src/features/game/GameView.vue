@@ -6,10 +6,11 @@ import GameHeader from '@/features/game/components/game-header/GameHeader.vue'
 import GameCard from '@/features/game/components/game-card/GameCard.vue'
 import GameEnd from '@/features/game/components/game-end/GameEnd.vue'
 import { useGame } from '@/features/game/composables/useGame'
+import router from '@/router'
 
 const { cards, openCards, startGame, playGame, restartGame } = useGame()
 
-const store = useGameStore()
+const gameStore = useGameStore()
 
 const handleOpen = (cardKey: number, id: number) => {
   if (!openCards[id]) {
@@ -21,7 +22,7 @@ const handleOpen = (cardKey: number, id: number) => {
 const isModalOpen = ref(false)
 
 watch(
-  () => store.isGameLoose,
+  () => gameStore.isGameLoose,
   (newVal) => {
     if (newVal) {
       isModalOpen.value = true
@@ -37,11 +38,17 @@ const newGame = () => {
 onMounted(() => {
   startGame()
 })
+
+const backToStartScreen = () => {
+  gameStore.reset()
+  gameStore.isGameStarted = false
+  router.push('/')
+}
 </script>
 
 <template>
   <div class="page">
-    <img :src="`/${store.mode}.webp`" alt="" class="background" />
+    <img :src="`/${gameStore.mode}.webp`" alt="" class="background" />
     <GameContainer class="game-container">
       <template #content>
         <GameHeader />
@@ -60,16 +67,17 @@ onMounted(() => {
     </GameContainer>
     <GameEnd :is-open="isModalOpen">
       <template #header>
-        <h2>You've run out of lives.</h2>
+        <h2 v-if="gameStore.isGameLoose">You've run out of lives.</h2>
+        <h2 v-else>Congratulations you win!</h2>
       </template>
       <template #content>
         <div>
-          <p>Do you want to restart game?</p>
+          <p>Do you want to restart the game, or try another level of difficulty?</p>
         </div>
       </template>
       <template #buttons>
         <button @click="newGame">Yes</button>
-        <button>NO</button>
+        <button @click="backToStartScreen">NO</button>
       </template>
     </GameEnd>
   </div>

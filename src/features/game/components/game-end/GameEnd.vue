@@ -33,8 +33,9 @@ const props = defineProps<{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.315);
+  background-color: rgba(0, 0, 0, 0.607);
   z-index: 100;
+  padding: 20px;
 }
 .hidden {
   display: none;
