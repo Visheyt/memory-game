@@ -10,7 +10,7 @@ export const useGameStore = defineStore('game', () => {
   const isGameStarted = ref(false)
   const isGameLoose = ref(false)
   const isGameWin = computed(() => scoreCounter.value === 0)
-  const scoreCounter = ref(1)
+  const scoreCounter = ref(6)
   const musicSrc = ref('')
 
   const setMode = (newMode: Mode) => {
