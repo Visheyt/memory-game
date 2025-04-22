@@ -7,7 +7,6 @@ import GameCard from '@/features/game/components/game-card/GameCard.vue'
 import GameEnd from '@/features/game/components/game-end/GameEnd.vue'
 import { useGame } from '@/features/game/composables/useGame'
 import router from '@/router'
-
 const { cards, openCards, startGame, playGame, restartGame } = useGame()
 
 const gameStore = useGameStore()
@@ -52,34 +51,28 @@ const backToStartScreen = () => {
     <GameContainer class="game-container">
       <template #content>
         <GameHeader />
-        <div class="cards-container">
-          <GameCard
-            v-for="(card, index) in cards"
-            :key="index"
-            :img-src="card.imgSrc"
-            :card-key="card.key"
-            :id="card.id"
-            :is-open="openCards[card.id] || false"
-            @open="handleOpen"
-          />
-        </div>
+        <Transition name="slide-fade-height" mode="out-in">
+          <div :key="gameStore.isGameWin || gameStore.isGameLoose ? 'end' : 'cards'">
+            <GameEnd
+              v-if="gameStore.isGameLoose || gameStore.isGameWin"
+              @to-start-screen="backToStartScreen"
+              @new-game="newGame"
+            />
+            <div v-else class="cards-container">
+              <GameCard
+                v-for="(card, index) in cards"
+                :key="index"
+                :img-src="card.imgSrc"
+                :card-key="card.key"
+                :id="card.id"
+                :is-open="openCards[card.id] || false"
+                @open="handleOpen"
+              />
+            </div>
+          </div>
+        </Transition>
       </template>
     </GameContainer>
-    <GameEnd :is-open="isModalOpen">
-      <template #header>
-        <h2 v-if="gameStore.isGameLoose">You've run out of lives.</h2>
-        <h2 v-else>Congratulations you win!</h2>
-      </template>
-      <template #content>
-        <div>
-          <p>Do you want to restart the game, or try another level of difficulty?</p>
-        </div>
-      </template>
-      <template #buttons>
-        <button @click="newGame">Yes</button>
-        <button @click="backToStartScreen">NO</button>
-      </template>
-    </GameEnd>
   </div>
 </template>
 
@@ -107,5 +100,25 @@ const backToStartScreen = () => {
 .game-container {
   padding: 10px;
   max-width: 580px;
+}
+
+.slide-fade-height-enter-active,
+.slide-fade-height-leave-active {
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
+  overflow: hidden;
+}
+
+.slide-fade-height-enter-from,
+.slide-fade-height-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+.slide-fade-height-enter-to,
+.slide-fade-height-leave-from {
+  max-height: 1000px;
+  opacity: 1;
 }
 </style>

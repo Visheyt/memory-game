@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { delayMap, livesMap } from './config'
 import type { Mode } from './types'
 
@@ -9,8 +9,9 @@ export const useGameStore = defineStore('game', () => {
   const showDelay = ref(delayMap[mode.value])
   const isGameStarted = ref(false)
   const isGameLoose = ref(false)
-  const scoreCounter = ref(12)
-  const musicSrc = ref('/music/easy.mp3')
+  const isGameWin = computed(() => scoreCounter.value === 0)
+  const scoreCounter = ref(1)
+  const musicSrc = ref('')
 
   const setMode = (newMode: Mode) => {
     mode.value = newMode
@@ -40,6 +41,7 @@ export const useGameStore = defineStore('game', () => {
     mode,
     lives,
     isGameLoose,
+    isGameWin,
     isGameStarted,
     showDelay,
     musicSrc,

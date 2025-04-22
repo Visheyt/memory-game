@@ -1,61 +1,53 @@
 <script setup lang="ts">
-const props = defineProps<{
-  isOpen: boolean
-}>()
+import { useGameStore } from '@/store/game'
+
+const gameState = useGameStore()
+
+const emit = defineEmits(['toStartScreen', 'newGame'])
+
+const toStartScreen = () => {
+  emit('toStartScreen')
+}
+
+const newGame = () => {
+  emit('newGame')
+}
 </script>
 
 <template>
-  <teleport to="body">
-    <div class="overlay" :class="props.isOpen ? '' : 'hidden'">
-      <div class="modal">
-        <header class="header">
-          <slot name="header"></slot>
-        </header>
-        <div class="content">
-          <slot name="content"></slot>
-        </div>
-        <div class="buttons">
-          <slot name="buttons"></slot>
-        </div>
-      </div>
+  <div class="game-end">
+    <header class="header">
+      <h2>
+        {{
+          gameState.isGameLoose ? "You've run out of lives." : 'Congratulations! You win this game!'
+        }}
+      </h2>
+    </header>
+    <div class="content">
+      <p>Do you want to restart the game, or try another level of difficulty?</p>
     </div>
-  </teleport>
+    <div class="buttons">
+      <button @click="newGame">Yes</button>
+      <button @click="toStartScreen">NO</button>
+    </div>
+  </div>
 </template>
 
 <style>
-.overlay {
+.game-end {
   width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  height: 100%;
+  gap: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.607);
-  z-index: 100;
+  justify-content: space-between;
   padding: 20px;
-}
-.hidden {
-  display: none;
-}
-.modal {
-  background-color: rgba(255, 255, 255, 0.872);
-  max-width: 500px;
-  width: 100%;
-  padding-top: 10px;
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-radius: 5px;
 }
 .header {
   width: 100%;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.502);
 }
 
 .content {
