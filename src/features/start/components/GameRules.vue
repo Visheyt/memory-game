@@ -7,10 +7,14 @@ import type { Mode } from '@/store/game/types'
 const store = useGameStore()
 
 const startGame = (mode: Mode) => {
-  store.setMode(mode)
-  store.startGame()
+  const img = new Image()
+  img.src = `/${mode}.webp`
 
-  router.push('/game')
+  img.onload = () => {
+    store.setMode(mode)
+    store.startGame()
+    router.push('/game')
+  }
 }
 </script>
 

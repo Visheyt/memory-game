@@ -104,21 +104,17 @@ const backToStartScreen = () => {
 
 .slide-fade-height-enter-active,
 .slide-fade-height-leave-active {
-  transition:
-    max-height 0.5s ease,
-    opacity 0.5s ease;
+  transition: opacity 0.3s ease;
   overflow: hidden;
 }
 
 .slide-fade-height-enter-from,
 .slide-fade-height-leave-to {
-  max-height: 0;
   opacity: 0;
 }
 
 .slide-fade-height-enter-to,
 .slide-fade-height-leave-from {
-  max-height: 1000px;
   opacity: 1;
 }
 </style>

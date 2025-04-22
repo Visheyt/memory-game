@@ -34,11 +34,12 @@ onMounted(() => {
   opacity: 0;
   transform: scale(0);
   transition:
-    transform 0.7s ease,
-    opacity 0.9s ease;
+    transform 0.5s ease,
+    opacity 0.5s ease;
   @media (max-width: 768px) {
     padding: 20px;
   }
+  will-change: opacity, transform;
 }
 .container.appear {
   opacity: 1;
