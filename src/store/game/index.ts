@@ -3,14 +3,17 @@ import { computed, ref } from 'vue'
 import { delayMap, livesMap } from './config'
 import type { Mode } from './types'
 
+const MAX_LIVES = 3
+const CARD_PAIRS = 6
+
 export const useGameStore = defineStore('game', () => {
   const mode = ref<Mode>('easy')
-  const lives = ref(3)
+  const lives = ref(MAX_LIVES)
   const showDelay = ref(delayMap[mode.value])
   const isGameStarted = ref(false)
   const isGameLoose = ref(false)
   const isGameWin = computed(() => scoreCounter.value === 0)
-  const scoreCounter = ref(6)
+  const scoreCounter = ref(CARD_PAIRS)
   const musicSrc = ref('')
 
   const setMode = (newMode: Mode) => {
@@ -34,7 +37,7 @@ export const useGameStore = defineStore('game', () => {
 
   const reset = () => {
     isGameLoose.value = false
-    scoreCounter.value = 6
+    scoreCounter.value = CARD_PAIRS
   }
 
   return {
