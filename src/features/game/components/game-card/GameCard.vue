@@ -14,7 +14,7 @@ const handleClick = (cardKey: number, id: number) => {
 </script>
 
 <template>
-  <button
+  <div
     class="card"
     :class="isOpen ? 'open' : ' '"
     @click="handleClick(cardKey, id)"
@@ -22,7 +22,7 @@ const handleClick = (cardKey: number, id: number) => {
   >
     <img :src="props.imgSrc" alt="front image" class="front" />
     <img src="/game/back.webp" alt="back image" class="back" />
-  </button>
+  </div>
 </template>
 
 <style>

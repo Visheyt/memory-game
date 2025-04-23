@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CustomButton from '@/shared/CustomButton.vue'
 import { useGameStore } from '@/store/game'
 
 const gameState = useGameStore()
@@ -27,8 +28,8 @@ const newGame = () => {
       <p>Do you want to restart the game, or try another level of difficulty?</p>
     </div>
     <div class="buttons">
-      <button @click="newGame">Yes</button>
-      <button @click="toStartScreen">NO</button>
+      <CustomButton @button-click="newGame">Yes</CustomButton>
+      <CustomButton @button-click="toStartScreen">No</CustomButton>
     </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
+import CustomButton from '@/shared/CustomButton.vue'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
 import { useGameStore } from '@/store/game/index'
 import type { Mode } from '@/store/game/types'
@@ -35,9 +36,9 @@ const startGame = (mode: Mode) => {
       <div class="difficulty">
         <h2>Choose difficulty:</h2>
         <div class="buttons">
-          <button @click="startGame('easy')">Easy</button>
-          <button @click="startGame('medium')">Medium</button>
-          <button @click="startGame('hard')">Hard</button>
+          <CustomButton @button-click="startGame('easy')">Easy</CustomButton>
+          <CustomButton @button-click="startGame('medium')">Medium</CustomButton>
+          <CustomButton @button-click="startGame('hard')">Hard</CustomButton>
         </div>
       </div>
     </template>
@@ -62,9 +63,11 @@ const startGame = (mode: Mode) => {
 button {
   font-weight: 600;
   border: none;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: rgba(148, 148, 148, 0.345);
+  border-radius: 5px;
+  padding: 7px 10px;
+  background-color: inherit;
   cursor: pointer;
+  color: black;
+  position: relative;
 }
 </style>
