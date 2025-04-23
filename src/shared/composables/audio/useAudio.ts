@@ -1,6 +1,8 @@
-import { ref } from 'vue'
+import { useGameStore } from '@/store/game'
+import { ref, watch } from 'vue'
 
 export const useAudio = () => {
+  const store = useGameStore()
   const audio = ref<HTMLAudioElement>()
   const isAudioPlay = ref(false)
 
@@ -16,6 +18,15 @@ export const useAudio = () => {
     }
     isAudioPlay.value = !isAudioPlay.value
   }
+
+  watch(
+    () => store.isGameStarted,
+    (newVal) => {
+      if (!newVal) {
+        audio.value?.pause()
+      }
+    },
+  )
 
   return {
     createAudio,
