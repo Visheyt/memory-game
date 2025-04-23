@@ -34,7 +34,7 @@ export const useGameStore = defineStore('game', () => {
 
   const reset = () => {
     isGameLoose.value = false
-    scoreCounter.value = 12
+    scoreCounter.value = 6
   }
 
   return {
