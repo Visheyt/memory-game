@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import router from '@/router'
 import CustomButton from '@/shared/CustomButton.vue'
 import GameContainer from '@/shared/game-container/GameContainer.vue'
-import { useGameStore } from '@/store/game/index'
-import type { Mode } from '@/store/game/types'
+import { useStartGame } from '../composables/useStartGame'
 
-const store = useGameStore()
-
-const startGame = (mode: Mode) => {
-  store.setMode(mode)
-  store.startGame()
-  router.push('/game')
-}
+const startGame = useStartGame()
 </script>
 
 <template>
@@ -59,15 +51,5 @@ const startGame = (mode: Mode) => {
 .buttons {
   display: flex;
   gap: 20px;
-}
-button {
-  font-weight: 600;
-  border: none;
-  border-radius: 5px;
-  padding: 7px 10px;
-  background-color: inherit;
-  cursor: pointer;
-  color: black;
-  position: relative;
 }
 </style>
