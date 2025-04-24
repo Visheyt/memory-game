@@ -3,6 +3,7 @@ import HeartIcon from '@/shared/icons/HeartIcon.vue'
 
 import { useGameStore } from '@/store/game/index'
 import GameMusic from '../game-music/GameMusic.vue'
+import { capitalize } from 'vue'
 
 const gameStore = useGameStore()
 </script>
@@ -13,9 +14,7 @@ const gameStore = useGameStore()
       <HeartIcon v-for="n in gameStore.lives" :key="n" />
     </div>
     <h3>
-      {{
-        `${gameStore.mode[0].toUpperCase() + gameStore.mode.slice(1, gameStore.mode.length)} level`
-      }}
+      {{ `${capitalize(gameStore.mode)} level` }}
     </h3>
     <GameMusic :music-src="gameStore.musicSrc" />
   </header>
