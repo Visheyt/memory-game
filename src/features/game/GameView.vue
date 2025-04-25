@@ -1,48 +1,19 @@
 <script setup lang="ts">
 import GameContainer from '@/shared/game-container/GameContainer.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted } from 'vue'
 import { useGameStore } from '@/store/game/index'
 import GameHeader from '@/features/game/components/game-header/GameHeader.vue'
 import GameCard from '@/features/game/components/game-card/GameCard.vue'
 import GameEnd from '@/features/game/components/game-end/GameEnd.vue'
 import { useGame } from '@/features/game/composables/useGame'
-import router from '@/router'
-const { cards, openCards, startGame, playGame, restartGame } = useGame()
+
+const { cards, openCards, startGame, restartGame, backToStartScreen, openCard } = useGame()
 
 const gameStore = useGameStore()
-
-const handleOpen = (cardKey: number, id: number) => {
-  if (!openCards[id]) {
-    openCards[id] = true
-    playGame(cardKey, id)
-  }
-}
-
-const isModalOpen = ref(false)
-
-watch(
-  () => gameStore.isGameLoose,
-  (newVal) => {
-    if (newVal) {
-      isModalOpen.value = true
-    }
-  },
-)
-
-const newGame = () => {
-  restartGame()
-  isModalOpen.value = false
-}
 
 onMounted(() => {
   startGame()
 })
-
-const backToStartScreen = () => {
-  gameStore.reset()
-  gameStore.isGameStarted = false
-  router.push('/')
-}
 </script>
 
 <template>
@@ -56,7 +27,7 @@ const backToStartScreen = () => {
             <GameEnd
               v-if="gameStore.isGameLoose || gameStore.isGameWin"
               @to-start-screen="backToStartScreen"
-              @new-game="newGame"
+              @new-game="restartGame"
             />
             <div v-else class="cards-container">
               <GameCard
@@ -66,7 +37,7 @@ const backToStartScreen = () => {
                 :card-key="card.key"
                 :id="card.id"
                 :is-open="openCards[card.id] || false"
-                @open="handleOpen"
+                @open="openCard"
               />
             </div>
           </div>

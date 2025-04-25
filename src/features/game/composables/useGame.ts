@@ -30,6 +30,11 @@ export const useGame = () => {
     startGame()
   }
 
+  const backToStartScreen = () => {
+    gameStore.reset()
+    gameStore.isGameStarted = false
+  }
+
   const playGame = async (key: number, id: number) => {
     if (!pressedCardKey.value) {
       pressedCardKey.value = key
@@ -56,6 +61,13 @@ export const useGame = () => {
     }
   }
 
+  const openCard = (cardKey: number, id: number) => {
+    if (!openCards[id]) {
+      openCards[id] = true
+      playGame(cardKey, id)
+    }
+  }
+
   const startGame = async () => {
     shuffleCards()
     await delay(START_GAME_CARDS_OPEN_DELAY)
@@ -70,6 +82,8 @@ export const useGame = () => {
     gameStore,
     startGame,
     restartGame,
+    backToStartScreen,
     playGame,
+    openCard,
   }
 }
