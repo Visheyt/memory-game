@@ -24,3 +24,5 @@ npm run dev
 - HTML
 
 
+### Deploy
+[link](https://visheyt-memory-game.netlify.app/)
