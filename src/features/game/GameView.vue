@@ -18,7 +18,7 @@ onMounted(() => {
 
 <template>
   <div class="page">
-    <img :src="`/${gameStore.mode}.webp`" alt="" class="background" />
+    <img :src="`/${gameStore.mode}.webp`" alt="bg-image" class="background" loading="lazy" />
     <GameContainer class="game-container">
       <template #content>
         <GameHeader />
