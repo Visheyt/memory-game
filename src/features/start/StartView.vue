@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import GameRules from '@/features/start/components/GameRules.vue'
+import SpinnerComponent from '@/shared/components/SpinnerComponent.vue'
+import { useImageLoading } from '@/shared/composables/audio/useImageLoading'
 
-const {} = useImageLoading()
+const { handleImageLoad, isImageLoaded } = useImageLoading()
 </script>
 
 <template>
@@ -12,9 +14,7 @@ const {} = useImageLoading()
     @load="handleImageLoad"
     :style="`${!isImageLoaded ? 'display:none' : 'display:block'}`"
   />
-  <div v-if="!isImageLoaded" class="loader">
-    <div class="spinner"></div>
-  </div>
+  <SpinnerComponent v-if="!isImageLoaded" />
   <main class="page" v-else>
     <GameRules />
   </main>
@@ -27,33 +27,5 @@ const {} = useImageLoading()
   height: 100vh;
   object-fit: cover;
   z-index: -1;
-}
-.loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

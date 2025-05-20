@@ -6,10 +6,14 @@ import GameHeader from '@/features/game/components/game-header/GameHeader.vue'
 import GameCard from '@/features/game/components/game-card/GameCard.vue'
 import GameEnd from '@/features/game/components/game-end/GameEnd.vue'
 import { useGame } from '@/features/game/composables/useGame'
+import { useImageLoading } from '@/shared/composables/audio/useImageLoading'
+import SpinnerComponent from '@/shared/components/SpinnerComponent.vue'
 
 const { cards, openCards, startGame, restartGame, backToStartScreen, openCard } = useGame()
 
 const gameStore = useGameStore()
+
+const { isImageLoaded, handleImageLoad } = useImageLoading()
 
 onMounted(() => {
   startGame()
@@ -17,8 +21,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="page">
-    <img :src="`/${gameStore.mode}.webp`" alt="bg-image" class="background" loading="lazy" />
+  <img
+    :src="`/${gameStore.mode}.webp`"
+    alt="bg-image"
+    class="background"
+    @load="handleImageLoad"
+    :style="`${!isImageLoaded ? 'display:none' : 'display:block'}`"
+  />
+  <SpinnerComponent v-if="!isImageLoaded" />
+  <div class="page" v-else>
     <GameContainer class="game-container">
       <template #content>
         <GameHeader />
